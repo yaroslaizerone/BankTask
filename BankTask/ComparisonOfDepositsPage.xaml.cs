@@ -16,6 +16,7 @@ namespace BankTask
         public ComparisonOfDepositsPage(string stabilityValue, string optimalValue, string standartValue, double stabotvet, double stabotvet1, double stabotvet2, double srok, double totalSumma)
         {
             InitializeComponent();
+            //обработка данных после получения
             tbl_stabilitydohod.Text = stabilityValue;
             tbl_optimaldohod.Text = optimalValue;
             tbl_standartdohod.Text = standartValue;

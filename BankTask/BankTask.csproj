@@ -110,6 +110,7 @@
     <Compile Include="DepositCalculatorPage.xaml.cs">
       <DependentUpon>DepositCalculatorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="IncomePage.xaml.cs">
       <DependentUpon>IncomePage.xaml</DependentUpon>
     </Compile>

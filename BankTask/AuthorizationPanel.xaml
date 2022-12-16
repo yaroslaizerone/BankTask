@@ -1,0 +1,91 @@
+﻿<Window x:Class="BankTask.AuthorizationPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BankTask"
+         mc:Ignorable="d"
+        Title="AuthorizationPanel" Height="409" Width="332">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="120"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="255"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Image Source="image/IMG.png" Width="36" Grid.Column="4" HorizontalAlignment="Left" Margin="15,16,0,4" Grid.RowSpan="2" />
+        <TextBlock x:Name="tbl_logo" Grid.Column="1" Margin="10,23,240,10" TextWrapping="Wrap" Text="Деньги в каждый карман" Grid.ColumnSpan="4" FontStyle="Italic" Foreground="#FF213452" FontSize="20" FontWeight="Bold" Grid.RowSpan="2"/>
+        <TextBlock x:Name="tbl_login" Grid.Column="1" Margin="30,51,78,40" Grid.Row="2" TextWrapping="Wrap" Text="Логин" FontSize="22" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="tbl_auth" Grid.Column="2" Margin="5,50,9,35" Grid.Row="1" TextWrapping="Wrap" Text="Авторизация" Grid.ColumnSpan="2" Grid.RowSpan="2" FontSize="26"/>
+
+        <TextBox x:Name="tb_login" Margin="30,36,200,58" TextWrapping="Wrap"  Grid.Column="1"  Grid.Row="3" FontSize="18" Grid.ColumnSpan="4" BorderThickness="0,0,0,2" Grid.RowSpan="2">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="Введите логин" Foreground="DimGray"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <TextBlock x:Name="tbl_password" Grid.Column="1" Margin="30,28,42,3" Grid.Row="4" TextWrapping="Wrap" Text="Пароль" FontSize="22" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="tb_password" HorizontalAlignment="Left" TextWrapping="Wrap"  Grid.Column="1"  Grid.Row="5" FontSize="18" Width="280" Grid.ColumnSpan="4" BorderThickness="0,0,0,2" Margin="30,17,0,17">
+            <TextBox.Style>
+                <Style xmlns:sys="clr-namespace:System;assembly=mscorlib" TargetType="{x:Type TextBox}">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="Введите пароль" Foreground="DimGray"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Button x:Name="btn_voity" Grid.Column="1" Content="Вход" Margin="61,36,234,114" Grid.Row="6" Background="#FF2C7DE0" BorderBrush="{x:Null}" Foreground="White" Grid.ColumnSpan="4" FontSize="20" Cursor="Hand" Grid.RowSpan="2" Click="btn_voity_Click">
+            <Button.Effect>
+                <DropShadowEffect Color="Black" Direction="180" ShadowDepth="8" Opacity="0.5"  BlurRadius="15"/>
+            </Button.Effect>
+        </Button>
+
+    </Grid>
+</Window>

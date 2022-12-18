@@ -1,14 +1,12 @@
 ﻿using BankTask.Module;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace BankTask
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class AuthorizationPanel : Window
     {
         private string name;
@@ -17,39 +15,44 @@ namespace BankTask
         private string summa;
         private string srokkredita;
         private string summavkladas;
-        public AuthorizationPanel(string names, string dohods, string stavkas, string summas, double srokkredits, double summavklada)
+        private double sum;
+        private double proc;
+        public AuthorizationPanel(string names, string dohods, string stavkas, string summas, double srokkredits, double summavklada, double prochentStavka)
         {
             InitializeComponent();
             name = names;
             dohod = dohods;
             stavka = stavkas;
             summa = summas;
+            sum = summavklada;
+            proc = prochentStavka;
             srokkredita = Convert.ToString(srokkredits);
-            summavkladas = Convert.ToDecimal(summavklada).ToString("#,##0 Руб.");          
+            summavkladas = Convert.ToDecimal(summavklada).ToString("#,##0 Руб.");
         }
-        private readonly string TemplateFileName = @"D:\Download\Word.docx";//таков путь
+        private readonly string TemplateFileName = @"C:\Users\kolpa\Downloads\Word.docx";//таков путь
 
         private void btn_voity_Click(object sender, RoutedEventArgs e)
         {
             string login = tb_login.Text;
             string password = tb_password.Text;
-            Entities model = new Entities();
-            var authorization = model.User;
-            var contract = model.Contract;
-            var bank = model.BankAccount;
+            Entities1 models = new Entities1();
+            var authorization = models.User;
+            var contract = models.Contract;
+            var bank = models.BankAccount;
             Helper helperCreate = new Helper();
 
             var idcontract = contract.OrderByDescending(x => x.IDContract).First().IDContract;
             var contractid = Convert.ToString(idcontract + 1);
-
-            var bankaccount = bank.OrderByDescending(x => x.NumberAccount).First().NumberAccount;
-            var accountbank = Convert.ToString(bankaccount + 1);
 
             try
             {
                 var user = authorization.Where(x => x.Login == login && x.Password == password).FirstOrDefault();
                 if (user != null)
                 {
+                    MessageBox.Show("Авторизация выполнена успешно");
+                    int IDUser = models.User.Where(x => x.Login == login && x.Password == password).First().IDUser;
+                    var bankaccount = bank.Where(x => x.IDUser == IDUser).First().NumberAccount;
+                    var accountbank = Convert.ToString(bankaccount);
                     string surname = user.Surname;
                     string nameuser = user.Name;
                     string patronymic = user.Patronymic;
@@ -67,13 +70,22 @@ namespace BankTask
                     DateTime d1 = DateTime.Now;
                     int diff = Convert.ToInt32(srokkredita);
                     DateTime result = d1.AddDays(diff);
-                    string formatted = result.ToString("dd-MM-yyyy");
+                    string formatted = result.ToString("yyyy-MM-dd");
 
-
-                    MessageBox.Show("Авторизация выполнена успешно");
+                    Contract contractForBase = new Contract
+                    {
+                        IDContract = idcontract + 1,
+                        NumberAccount = bankaccount,
+                        IDUser = IDUser,
+                        Amount = sum,
+                        Period = diff,
+                        ExpirationDate = formatted,
+                        Percet = proc
+                    };
+                    Helper.getContext();
+                    Helper.Create(contractForBase);
 
                     var wordApp = new Word.Application();//переменная для word
-                    wordApp.Visible = false;//word скрыт
                     try
                     {
                         var wordDocument = wordApp.Documents.Open(TemplateFileName);//переменная для хранения нашего документа
@@ -126,7 +138,7 @@ namespace BankTask
                         ReplaceWordsStub("{groupe}", summavkladas, wordDocument);
 
 
-                        wordDocument.SaveAs2(@"D:\Download\Word1.docx");//сохроняем наш документ
+                        wordDocument.SaveAs2(@"C:\Users\kolpa\Downloads\Word1.docx");//сохроняем наш документ
                         wordDocument.Close();//закрываем документ
 
 
@@ -147,30 +159,18 @@ namespace BankTask
             }
             catch
             {
-                MessageBox.Show("Фотальная ошибка");
+                MessageBox.Show("Фатальная ошибка");
             }
-            /*try
+
+
+
+            void ReplaceWordsStub(string stubToReplace, string text, Word.Document wordDocument)
             {
-                Contract objectContract = new Contract { IDContract = Convert.ToInt32(contractid), NumberAccount = Convert.ToInt32(accountbank), IDUser = helperCreate.GetLastIDStaff(), E_mail = emailUser, Сonfirmed = "F", ID_Staff = id_staff };
-                helperCreate.CreateUser(objectContract);
+                var range = wordDocument.Content;//перменная для хранения данных документа
+                range.Find.ClearFormatting();//метод сброса всех натстроек текста
+                range.Find.Execute(FindText: stubToReplace, ReplaceWith: text);//находим ключевые слова и заменяем их
             }
-            catch
-            {
-                MessageBox.Show("Не удалось записать данные в базу");
-            }*/
         }
-        /// <summary>
-        /// Метод замены ключевых слов на данные
-        /// </summary>
-        /// <param name="stubToReplace">Ключевые слова</param>
-        /// <param name="text">Текст, который заменяет ключевые слова</param>
-        /// <param name="wordDocument">Наш документ</param>
-        private void ReplaceWordsStub(string stubToReplace, string text, Word.Document wordDocument)
-        {
-            var range = wordDocument.Content;//перменная для хранения данных документа
-            range.Find.ClearFormatting();//метод сброса всех натстроек текста
-            range.Find.Execute(FindText: stubToReplace, ReplaceWith: text);//находим ключевые слова и заменяем их
-        }
-    }
+    } 
 }
 

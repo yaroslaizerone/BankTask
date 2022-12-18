@@ -84,22 +84,22 @@ namespace BankTask
         // Пепредача данных для формирования объекта, берём соответсвующие данные в зависимости от выбранной услуги
         private void bt_vkladthree_Click(object sender, RoutedEventArgs e)
         {
-            nextPage(tbl_stability.Text, tbl_stabilitydohod.Text, tbl_stabilitystavka.Text, tbl_stabilitysumma.Text);
+            nextPage(tbl_stability.Text, tbl_stabilitydohod.Text, tbl_stabilitystavka.Text, tbl_stabilitysumma.Text, 8.67);
         }
 
         private void btn_vkladone_Click(object sender, RoutedEventArgs e)
         {
-            nextPage(tbl_optimal.Text, tbl_optimaldohod.Text, tbl_optimalstavka.Text, tbl_optimalsumma.Text);
+            nextPage(tbl_optimal.Text, tbl_optimaldohod.Text, tbl_optimalstavka.Text, tbl_optimalsumma.Text, 5.12);
         }
 
         private void bt_vkladtwo_Click(object sender, RoutedEventArgs e)
         {
-            nextPage(tbl_standart.Text, tbl_standartdohod.Text, tbl_standartstavka.Text, tbl_standartsumma.Text);
+            nextPage(tbl_standart.Text, tbl_standartdohod.Text, tbl_standartstavka.Text, tbl_standartsumma.Text, 6.21);
         }
 
-        public void nextPage(string name, string dohod, string stavka, string summa )
+        public void nextPage(string name, string dohod, string stavka, string summa, double procentStavka )
         {
-            AuthorizationPanel form = new AuthorizationPanel(name, dohod, stavka, summa, srokkredits, summavklada);
+            AuthorizationPanel form = new AuthorizationPanel(name, dohod, stavka, summa, srokkredits, summavklada, procentStavka);
             form.Show();
         }
     }

@@ -19,7 +19,7 @@ namespace BankTask.Module
         public int IDUser { get; set; }
         public double Amount { get; set; }
         public int Period { get; set; }
-        public System.DateTime ExpirationDate { get; set; }
+        public string ExpirationDate { get; set; }
         public double Percet { get; set; }
     
         public virtual BankAccount BankAccount { get; set; }

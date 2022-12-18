@@ -44,6 +44,26 @@ namespace BankTask
             NumberFormatInfo nfi = new NumberFormatInfo { NumberGroupSeparator = " ", NumberDecimalDigits = 0 };
             //параметр n отвечает за точность получаемого значения *.00 
             tb_sum.Text = ((Slider)sender).Value.ToString("n", nfi);
+            valueCheange();
+        }
+        private void sl_srok_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            NumberFormatInfo nfi = new NumberFormatInfo { NumberGroupSeparator = " ", NumberDecimalDigits = 0 };
+            //параметр n отвечает за точность получаемого значения *.00
+            tb_srok.Text = ((Slider)sender).Value.ToString("n", nfi);
+            valueCheange();
+        }
+
+        private void sl_popoln_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            NumberFormatInfo nfi = new NumberFormatInfo { NumberGroupSeparator = " ", NumberDecimalDigits = 0 };
+            //параметр n отвечает за точность получаемого значения *.00
+            tb_popoln.Text = ((Slider)sender).Value.ToString("n", nfi);
+            valueCheange();
+        }
+
+        void valueCheange()
+        {
             try
             {
                 double summa = Convert.ToDouble(tb_sum.Text);
@@ -64,17 +84,6 @@ namespace BankTask
             {
                 MessageBox.Show("Error");
             }
-        }
-        private void sl_srok_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            NumberFormatInfo nfi = new NumberFormatInfo { NumberGroupSeparator = " ", NumberDecimalDigits = 0 };
-            tb_srok.Text = ((Slider)sender).Value.ToString("n", nfi);
-        }
-
-        private void sl_popoln_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            NumberFormatInfo nfi = new NumberFormatInfo { NumberGroupSeparator = " ", NumberDecimalDigits = 0 };
-            tb_popoln.Text = ((Slider)sender).Value.ToString("n", nfi);
         }
     }
 }
